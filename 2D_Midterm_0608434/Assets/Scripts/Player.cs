@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+
 
 public class Player : MonoBehaviour
 {
@@ -13,6 +15,14 @@ public class Player : MonoBehaviour
     public Animator ani;
     [Header("偵測範圍")]
     public float rangeAttack = 2.5f;
+    [Header("音效來源")]
+    public AudioSource aud;
+    [Header("攻擊音效")]
+    public AudioClip soundAttack;
+
+
+
+
 
     private void OnDrawGizmos()
     {
@@ -35,12 +45,12 @@ public class Player : MonoBehaviour
     }
     public  void Attack()
     {
-        print("e");
+
+        aud.PlayOneShot(soundAttack, 0.5f);
 
         RaycastHit2D hit = Physics2D.CircleCast(transform.position, rangeAttack, transform.up, 0,1<<8);
 
-        print("碰到的物件" + hit.collider.name);
-
+        if (hit && hit.collider.tag == "道具") hit.collider.GetComponent<Item>().DropProp();
 
     }
     private void Hit()
@@ -62,5 +72,29 @@ public class Player : MonoBehaviour
         Move();
     }
 
+
+    [Header("吃蘋果特效")]
+    public AudioClip soundEat;
+    [Header("蘋果數量")]
+    public Text textcoin;
+
+
+    private int coin;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+        if (collision.tag == "蘋果")
+        {
+            coin++;
+            aud.PlayOneShot(soundEat);
+            Destroy(collision.gameObject);
+
+            textcoin.text = "金幣:" + coin;
+
+        }
+
+
+    }
 
 }
