@@ -19,11 +19,11 @@ public class Item : MonoBehaviour
         {
             Instantiate(prop, transform.position, transform.rotation);
 
-            Destroy(gameObject);
 
         }
 
 
+        Destroy(gameObject);
 
     }
 
