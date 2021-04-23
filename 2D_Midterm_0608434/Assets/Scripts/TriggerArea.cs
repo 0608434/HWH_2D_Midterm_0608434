@@ -11,6 +11,8 @@ public class TriggerArea : MonoBehaviour
 
             stones[0].SetActive(false);
 
+            Destroy(collision.gameObject);
+
         }
 
     }
